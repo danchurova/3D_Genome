@@ -3,7 +3,8 @@
 
 import os
 import sys
-import pandas
+import pandas as pd
+import numpy as np
 
 directory = 'data/K562_interchromosomal/100kb_resolution_interchromosomal'
 frequency = {}
@@ -19,7 +20,10 @@ def main():
                         for line in raw.readlines():
                             _, _, value = line.strip().split('\t')
                             value = float(value)
+                            frequency[value] = frequency.get(value,0) + 1
                             total += 1
+    #freq_data = pd.DataFrame(frequency, columns = ['value', 'frequency'])
+ 
 
       #  chr1, chr2 = chrom_pair.split('_')
       #  chr_id1 = int(chr1.replace('chr', ''))
