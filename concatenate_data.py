@@ -63,7 +63,7 @@ def main():
     plt.title(str(data_type)+'data interchromosomal contact frequency distribution')
     plt.ylabel('Frequency')
     plt.xlabel('Contact value')
-    plt.savefig(select(data_type +'plot.png'))
+    plt.savefig('data/K562_interchromosomal/100kb_resolution_interchromosomal/'+data_type+'plot.png')
 
     # draft for concatenated data of top interactions
     concatenated_data = pd.DataFrame(columns = ['chrom1', 'coord1', 'chrom2', 'coord2', 'value'])
