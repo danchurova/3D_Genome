@@ -57,7 +57,7 @@ def main():
                         KRnorm_vector2.rename(columns={0:'coef'}, inplace=True)
 
                     KRnorm_data = normalize(data, KRnorm_vector1, KRnorm_vector2, 100000)
-                    KRnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_KRnormalized'), sep='\t')
+                    KRnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_KRnormalized'), sep='\t', na_rep=0)
 
 
                 elif normalization == 'VC':
@@ -84,7 +84,7 @@ def main():
 
                     SQRTVCnorm_data = normalize(data, SQRTVCnorm_vector1, SQRTVCnorm_vector2, 100000)
                     SQRTVCnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_SQRTVCnormalized'), sep='\t')
-                print(str(normalization) + ' normalization is over!')
+        print(str(normalization) + ' normalization is over!')
 
 if __name__ == '__main__':
     main()
