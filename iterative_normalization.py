@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 directory = 'data/K562_interchromosomal/100kb_resolution_interchromosomal'
-normalization = sys.argv[1]
+normalization = sys.argv[1] #KR, VC or SQRTVC
 
 def normalize(raw_data, norm_vector_1, norm_vector_2, resolution):
     # raw_data format = ['coord1', 'coord2', 'value']
@@ -21,7 +21,7 @@ def normalize(raw_data, norm_vector_1, norm_vector_2, resolution):
     norm_data_temp.insert(1, 'coord1_coef', [norm_vector_1.coef.iloc[int(i)] for i in norm_data_temp.coord1])
     norm_data_temp.insert(3, 'coord2_coef', [norm_vector_2.coef.iloc[int(i)] for i in norm_data_temp.coord2])
 
-    norm_data_temp.insert(5, 'norm_value', norm_data_temp.value/(norm_data_temp.coord1_coef*norm_data_temp.coord2_coef))
+    norm_data_temp.insert(5, 'norm_value', round(norm_data_temp.value/(norm_data_temp.coord1_coef*norm_data_temp.coord2_coef), 3))
     norm_data = raw_data[['coord1', 'coord2']]
     norm_data.insert(2, 'value', norm_data_temp.norm_value)
     return norm_data

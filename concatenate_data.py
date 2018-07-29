@@ -68,20 +68,25 @@ def main():
                             value = float(value)
                         frequency[value] = frequency.get(value,0) + 1
                         total += 1
-
+    print("I counted all pairs")
     percentage = round(total*(int(percent)/100))
+    print("One percentage is " + str(percentage))
     freq_sum = 0
     prev_element = 0
     for key in reversed(sorted(frequency)):
         freq_sum += frequency[key]
-        with open("frequency_stats", 'w') as freqs:
-            freqs.write(str(key)+'\t'+str(frequency[key]))
         if freq_sum >= percentage:
             print('This is frequency sum that is bigger than 1%: ' + str(freq_sum))
             threshold = prev_element
-            print('This is threshold: ' + str(threshold))
+            print('This is threshold value: ' + str(threshold))
             break
         prev_element = key
+
+    with open("data/K562_interchromosomal/frequency_stats_100kb_"+data_type, 'w') as freqs:
+        for key in reversed(sorted(frequency)):
+            freqs.write(str(key)+'\t'+str(frequency[key])+'\n')
+        freqs.close()
+
     print("I finished frequency dict writing")
 
     # draw a plot with genomic interchromosomal contact frequency distribution for each datatype
@@ -115,44 +120,37 @@ def main():
                     data.insert(0, 'chrom1', chr_id1)
                     data.insert(2, 'chrom2', chr_id2)
                     trimmed_data = data[data.value > threshold]
-                    print(trimmed_data.head())
                     concatenated_data = pd.concat([concatenated_data, trimmed_data])
 
             elif data_type == 'KRnorm':
                 with open(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_KRnormalized')) as KRnorm:
                     data = pd.read_table(KRnorm)
                     data.drop('Unnamed: 0', 1, inplace=True)
-                    print(data.head())
                     data.insert(0, 'chrom1', chr_id1)
                     data.insert(2, 'chrom2', chr_id2)
                     trimmed_data = data[data.value > threshold]
-                    print(trimmed_data.head())
                     concatenated_data = pd.concat([concatenated_data, trimmed_data])
 
             elif data_type == 'VCnorm':
                 with open(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_VCnormalized')) as VCnorm:
                     data = pd.read_table(VCnorm)
                     data.drop('Unnamed: 0', 1, inplace=True)
-                    print(data.head())
                     data.insert(0, 'chrom1', chr_id1)
                     data.insert(2, 'chrom2', chr_id2)
                     trimmed_data = data[data.value > threshold]
-                    print(trimmed_data.head())
                     concatenated_data = pd.concat([concatenated_data, trimmed_data])
 
             elif data_type == 'SQRTVCnorm':
                 with open(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_SQRTVCnormalized')) as SQRTVCnorm:
                     data = pd.read_table(SQRTVCnorm)
                     data.drop('Unnamed: 0', 1, inplace=True)
-                    print(data.head())
                     data.insert(0, 'chrom1', chr_id1)
                     data.insert(2, 'chrom2', chr_id2)
                     trimmed_data = data[data.value > threshold]
-                    print(trimmed_data.head())
                     concatenated_data = pd.concat([concatenated_data, trimmed_data])
 
     concatenated_data.to_csv('data/K562_interchromosomal/top_interactions/'+data_type+'_top_interactions_100kb.csv')
-    print("Concatenation is over!")
+    print("Concatenation is complete!")
     #freq_data = pd.DataFrame(frequency, columns = ['value', 'frequency'])
 
 
