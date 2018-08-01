@@ -22,8 +22,13 @@ def normalize(raw_data, norm_vector_1, norm_vector_2, resolution):
     norm_data_temp.insert(3, 'coord2_coef', [norm_vector_2.coef.iloc[int(i)] for i in norm_data_temp.coord2])
 
     norm_data_temp.insert(5, 'norm_value', round(norm_data_temp.value/(norm_data_temp.coord1_coef*norm_data_temp.coord2_coef), 3))
+    print(norm_data_temp[norm_data_temp['value'] == float('Inf')])
+    print(len(norm_data_temp))
+    with pd.option_context('mode.use_inf_as_null', True):
+        res = norm_data_temp.dropna()
+    print(len(res))
     norm_data = raw_data[['coord1', 'coord2']]
-    norm_data.insert(2, 'value', norm_data_temp.norm_value)
+    norm_data.insert(2, 'value', res.norm_value)
     return norm_data
 
 def main():
@@ -70,7 +75,7 @@ def main():
                         VCnorm_vector2.rename(columns={0:'coef'}, inplace=True)
 
                     VCnorm_data = normalize(data, VCnorm_vector1, VCnorm_vector2, 100000)
-                    VCnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_VCnormalized'), sep='\t')
+                    VCnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_VCnormalized'), sep='\t', na_rep=0)
 
 
                 if normalization == 'SQRTVC':
@@ -83,7 +88,7 @@ def main():
                         SQRTVCnorm_vector2.rename(columns={0:'coef'}, inplace=True)
 
                     SQRTVCnorm_data = normalize(data, SQRTVCnorm_vector1, SQRTVCnorm_vector2, 100000)
-                    SQRTVCnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_SQRTVCnormalized'), sep='\t')
+                    SQRTVCnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_SQRTVCnormalized'), sep='\t', na_rep=0)
         print(str(normalization) + ' normalization is over!')
 
 if __name__ == '__main__':

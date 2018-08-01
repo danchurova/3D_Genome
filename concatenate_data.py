@@ -52,6 +52,7 @@ def main():
                     for line in VCnorm.readlines():
                         if 'coord' in line:
                             continue
+                        print(line)
                         _, _, _, value = line.strip().split('\t')
                         if value != 'value':
                             value = float(value)
@@ -63,7 +64,10 @@ def main():
                     for line in SQRTVCnorm.readlines():
                         if 'coord' in line:
                             continue
-                        _, _, _, value = line.strip().split('\t')
+                        elif len(line.strip().split('\t')) == 4:
+                            _, _, _, value = line.strip().split('\t')
+                        else:
+                            value == 0
                         if value != 'value':
                             value = float(value)
                         frequency[value] = frequency.get(value,0) + 1
@@ -119,7 +123,7 @@ def main():
                     data.columns = ['coord1', 'coord2', 'value']
                     data.insert(0, 'chrom1', chr_id1)
                     data.insert(2, 'chrom2', chr_id2)
-                    trimmed_data = data[data.value > threshold]
+                    trimmed_data = data[data.value >= threshold]
                     concatenated_data = pd.concat([concatenated_data, trimmed_data])
 
             elif data_type == 'KRnorm':
@@ -128,7 +132,7 @@ def main():
                     data.drop('Unnamed: 0', 1, inplace=True)
                     data.insert(0, 'chrom1', chr_id1)
                     data.insert(2, 'chrom2', chr_id2)
-                    trimmed_data = data[data.value > threshold]
+                    trimmed_data = data[data.value >= threshold]
                     concatenated_data = pd.concat([concatenated_data, trimmed_data])
 
             elif data_type == 'VCnorm':
@@ -137,7 +141,7 @@ def main():
                     data.drop('Unnamed: 0', 1, inplace=True)
                     data.insert(0, 'chrom1', chr_id1)
                     data.insert(2, 'chrom2', chr_id2)
-                    trimmed_data = data[data.value > threshold]
+                    trimmed_data = data[data.value >= threshold]
                     concatenated_data = pd.concat([concatenated_data, trimmed_data])
 
             elif data_type == 'SQRTVCnorm':
@@ -146,7 +150,7 @@ def main():
                     data.drop('Unnamed: 0', 1, inplace=True)
                     data.insert(0, 'chrom1', chr_id1)
                     data.insert(2, 'chrom2', chr_id2)
-                    trimmed_data = data[data.value > threshold]
+                    trimmed_data = data[data.value >= threshold]
                     concatenated_data = pd.concat([concatenated_data, trimmed_data])
 
     concatenated_data.to_csv('data/K562_interchromosomal/top_interactions/'+data_type+'_top_interactions_100kb.csv')
