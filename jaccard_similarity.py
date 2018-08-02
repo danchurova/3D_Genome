@@ -17,7 +17,7 @@ def main():
     intersect = pd.merge(df1_for_jaccard, df2_for_jaccard, how='inner',on=['chrom1', 'coord1', 'chrom2', 'coord2'])
     join = pd.concat([df1_for_jaccard,df2_for_jaccard]).drop_duplicates().reset_index(drop=True)
     jaccard_coef = len(intersect)/len(join)
-    print('Jaccard coefficient for these dataset is: ' + str(jaccard_coef))
+    print('Jaccard coefficient for these datasets is: ' + str(jaccard_coef))
 
 if __name__ == '__main__':
     main()
