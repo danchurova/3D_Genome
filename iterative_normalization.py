@@ -6,8 +6,9 @@ import sys
 import pandas as pd
 import numpy as np
 
-directory = 'data/K562_interchromosomal/100kb_resolution_interchromosomal'
 normalization = sys.argv[1] #KR, VC or SQRTVC
+resolution = sys.argv[2] #100, 50, 25, 10, 5
+directory = 'data/K562_interchromosomal/'+resolution+'kb_resolution_interchromosomal'
 
 def normalize(raw_data, norm_vector_1, norm_vector_2, resolution):
     # raw_data format = ['coord1', 'coord2', 'value']
@@ -47,48 +48,48 @@ def main():
                     chr_id2 = int(chr_id2)
                 print('This is second chromosome #' + str(chr_id2))
 
-                with open(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb.RAWobserved')) as raw:
+                with open(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_'+resolution+'kb.RAWobserved')) as raw:
                     data = pd.read_table(raw, header=None)
                     data.columns = ['coord1', 'coord2', 'value']
 
 
                 if normalization == 'KR':
-                    with open(select('chr'+str(chr_id1)+'_100kb.KRnorm')) as KRnorm1:
+                    with open(select('chr'+str(chr_id1)+'_'+resolution+'kb.KRnorm')) as KRnorm1:
                         KRnorm_vector1 = pd.read_table(KRnorm1, header=None)
                         KRnorm_vector1.rename(columns={0:'coef'}, inplace=True)
 
-                    with open(select('chr'+str(chr_id2)+'_100kb.KRnorm')) as KRnorm2:
+                    with open(select('chr'+str(chr_id2)+'_'+resolution+'kb.KRnorm')) as KRnorm2:
                         KRnorm_vector2 = pd.read_table(KRnorm2, header=None)
                         KRnorm_vector2.rename(columns={0:'coef'}, inplace=True)
 
                     KRnorm_data = normalize(data, KRnorm_vector1, KRnorm_vector2, 100000)
-                    KRnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_KRnormalized'), sep='\t', na_rep=0)
+                    KRnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_'+resolution+'kb_KRnormalized'), sep='\t', na_rep=0)
 
 
                 elif normalization == 'VC':
-                    with open(select('chr'+str(chr_id1)+'_100kb.VCnorm')) as VCnorm1:
+                    with open(select('chr'+str(chr_id1)+'_'+resolution+'kb.VCnorm')) as VCnorm1:
                         VCnorm_vector1 = pd.read_table(VCnorm1, header=None)
                         VCnorm_vector1.rename(columns={0:'coef'}, inplace=True)
 
-                    with open(select('chr'+str(chr_id2)+'_100kb.VCnorm')) as VCnorm2:
+                    with open(select('chr'+str(chr_id2)+'_'+resolution+'kb.VCnorm')) as VCnorm2:
                         VCnorm_vector2 = pd.read_table(VCnorm2, header=None)
                         VCnorm_vector2.rename(columns={0:'coef'}, inplace=True)
 
                     VCnorm_data = normalize(data, VCnorm_vector1, VCnorm_vector2, 100000)
-                    VCnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_VCnormalized'), sep='\t', na_rep=0)
+                    VCnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_'+resolution+'kb_VCnormalized'), sep='\t', na_rep=0)
 
 
                 if normalization == 'SQRTVC':
-                    with open(select('chr'+str(chr_id1)+'_100kb.SQRTVCnorm')) as SQRTVCnorm1:
+                    with open(select('chr'+str(chr_id1)+'_'+resolution+'kb.SQRTVCnorm')) as SQRTVCnorm1:
                         SQRTVCnorm_vector1 = pd.read_table(SQRTVCnorm1, header=None)
                         SQRTVCnorm_vector1.rename(columns={0:'coef'}, inplace=True)
 
-                    with open(select('chr'+str(chr_id2)+'_100kb.SQRTVCnorm')) as SQRTVCnorm2:
+                    with open(select('chr'+str(chr_id2)+'_'+resolution+'kb.SQRTVCnorm')) as SQRTVCnorm2:
                         SQRTVCnorm_vector2 = pd.read_table(SQRTVCnorm2, header=None)
                         SQRTVCnorm_vector2.rename(columns={0:'coef'}, inplace=True)
 
                     SQRTVCnorm_data = normalize(data, SQRTVCnorm_vector1, SQRTVCnorm_vector2, 100000)
-                    SQRTVCnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_100kb_SQRTVCnormalized'), sep='\t', na_rep=0)
+                    SQRTVCnorm_data.to_csv(select('chr'+str(chr_id1)+'_'+str(chr_id2)+'_'+resolution+'kb_SQRTVCnormalized'), sep='\t', na_rep=0)
         print(str(normalization) + ' normalization is over!')
 
 if __name__ == '__main__':
