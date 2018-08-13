@@ -1,5 +1,5 @@
 # 3D_Genome
-### 3D-Genome project is a summer internship project
+### 3D-Genome project is a Bioinformatics Institute summer internship project
 We aimed to analyze the strongest interchromosomal interactions and analyze their role and functionality.
 
 #### Main concepts
@@ -17,12 +17,21 @@ we used all three normalizations:
 
 * **concatenate_data.py** is a script that look at the contact values frequences in the whole genome, calculate the threshold value for the one percent top-interactions (the most tight) and keep only those that bigger than this threshold
 
-works with raw and normalized data
+   - works with raw and all normalized data
 
 * **jaccard_similarity.py** is a script that calculates jaccard similarity coefficient between two top interactions datasets (raw and normalized)
 
 * **take_a_closer_look.py** is a script that allows to get all interactions of higher resolution that are within top-interactions of 100 kb data
 
+#### Some results
+##### K562
+
+|metrics|raw|KRnormalized|VCnormalized|SQRTVCnormalized|
+|---|---|---|---|---|
+|initial number of contacts| 97719803   |97719803   |97719803   |97719803   |
+|threshold   |6.0   |6.219   |12.863(?)   |6.546   |
+|1%   |977198   |977198   |977198   |977198   |
+|sum bigger than 1%   |1236906|977222   |977226   | 977270|
 
 
 #### References
