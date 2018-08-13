@@ -33,6 +33,11 @@ we used all three normalizations:
 |1%   |977198   |977198   |977198   |977198   |
 |sum bigger than 1%   |1236906|977222   |977226   | 977270|
 
+##### Jaccard similarity
+||KRnormalized|VCnormalized|SQRTVCnormalized|
+|---|---|---|---|
+|raw| 0.073   |0.012   |0.11   |
+
 
 #### References
 1. Rao SS, Huntley MH, Durand NC, Stamenova EK et al. A 3D map of the human genome at kilobase resolution reveals principles of chromatin looping. Cell 2014 Dec 18;159(7):1665-80. PMID: [25497547](https://www.ncbi.nlm.nih.gov/pubmed/25497547)
